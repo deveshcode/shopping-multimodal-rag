@@ -1,3 +1,42 @@
 TODO List 
 
-Make Github repo
+Data Pipeline
+
+Fix the datapipeline
+hardcoded URL no other section
+additional data 
+test py rename to better data pipeline
+restriction image count 
+clean data 
+why 48 images 
+how can more images come 
+
+storing data in pinecone
+image url is missing 
+image is not being google cloud 
+clip model - best ? alternatives ? versions ? 
+Why text embeddings are not stored
+
+Search functionality can be improved
+Text embeddings could be used alongside Text
+Filtering of metadata could be data
+Hybrid search could be implemented
+Florence model could also be used
+
+Verify search by image functionality
+Top N results functionality is not included
+Why are csv files needed if the 
+
+Langchain / llama index could be used
+Streamlit-chat functionality could be integrated
+streamlit lottie and streamlit extra could be used 
+Adding functionality of a follow up query - that 50$ is too much show me a cheaper option
+
+Complementary - image - shorts - suggest tshirts - GPT-4o 
+Unit testcases
+Streamlit app should be streamlti commands
+Fast API should be integrated
+Deploy google cloud 
+Dockerize and deploy 
+For fastapi using langchain / llama index for api calling
+
