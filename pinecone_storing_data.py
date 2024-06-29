@@ -11,20 +11,20 @@ from pinecone import Pinecone, ServerlessSpec
 # Load the CSV file
 df = pd.read_csv('nike_mens_clothing_with_additional_data.csv')
 
-#df['textual']=df['Details'] + ' ' + df['Description'] + ' ' + df['Price']
+
 df['textual']= df['Title'] + ' ' + df['Details'] + ' '+ df['Description']  + ' '+ 'Price' +'  '+ df['Price']
 #embedding len issue (max 81)
 #df = df[5:] # Limit the number of products for demonstration
 
 # Initialize Pinecone with the new API
 pc = Pinecone(
-    api_key="",
+    api_key="d3668c25-8ef3-4fe9-b8f0-f02be12cdad5",
 )
 # Create Pinecone index
 
-pc.delete_index("nike-inventory-storage")
+#pc.delete_index("nike-inventory-storage")
 
-index_name = "nike-inventory-storage"
+index_name = "nike-inventory-storage3"
 if index_name not in pc.list_indexes().names():
     pc.create_index(
         name=index_name,
@@ -110,7 +110,7 @@ for ind, row in df.iterrows():
     print(f"Processing {ind + 1}/{len(df)}: {row['Title']}")
     image_url = row['Image URL']
     text_embedding=hierarchical_embedding(row['textual'])
-    
+  
     # Create a vector with the embedding
     vector = {
         'id': str(i),  # You can use any unique identifier
@@ -123,9 +123,10 @@ for ind, row in df.iterrows():
             'Product URL': row['Product URL'],
             'Image URL':row['Image URL']
         }
+
     }
+
     i=i+1
-    print(index)
     # Upsert the vector into Pinecone
     index.upsert([vector])
 

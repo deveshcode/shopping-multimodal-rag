@@ -24,7 +24,7 @@ url = input("Please enter the URL of the page to scrape: ")
 driver.get(url)
 
 # Scroll and wait for more content to load
-scroll_pause_time = 2
+scroll_pause_time = 15
 last_height = driver.execute_script("return document.body.scrollHeight")
 
 while True:
