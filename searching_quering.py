@@ -97,5 +97,5 @@ n=5
 text_search_results = search_by_text(text_query,n)
 for match in text_search_results.matches:
     image_id = match.id  # Replace with the desired ID from the search results
-    print(f"ID: {match.id}, Score: {match.score}")# Example usage
+    print(f"ID: {match.id}, Score: {match.score}",Metadata: {match.metadata})# Example usage
     display_image_by_id(match)
