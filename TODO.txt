@@ -2,14 +2,9 @@ TODO List
 
 Data Pipeline
 
-Fix the datapipeline
-hardcoded URL no other section
-additional data 
-test py rename to better data pipeline
-restriction image count 
-clean data 
-why 48 images 
-how can more images come 
+1. In order to not get autobanned, need to write a setting or a limiter inside of data pipeline to limit the calls. 
+2. Check verify and clean data if need be, specifically verify the URLs and the description to prevent unnecessary content coming in between.
+3. Check and Debug what the DB's original web scrape only contained 48 images and how more could be added to improve the data pipeline.
 
 storing data in pinecone
 image url is missing 
