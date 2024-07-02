@@ -99,8 +99,6 @@ def chat_with_gpt(user_prompt, chat_history):
     except Exception as e:
         return f"An error occurred: {str(e)}"
 
-
-# Function to send prompt to the appropriate API
 def send_to_api(prompt, file_url=None):
     logger.info(f"Sending prompt to API: {prompt}")
     # Create the LLM instance
@@ -157,7 +155,7 @@ def display_results(response):
     if not products:
         return "No similar products found."
     
-    result_str = "<div style='font-size: 14px;'><br>"
+    result_str = "<div style='font-size: 15px;'><br>"
     for product in products:
         metadata = product.get('metadata', {})
         description = metadata.get('Description', 'N/A')
@@ -182,6 +180,10 @@ if "image_url" not in st.session_state:
     st.session_state.image_url = None
 if "file_identifiers" not in st.session_state:
     st.session_state.file_identifiers = {}
+if "virtual_try_on_flag" not in st.session_state:
+    st.session_state.virtual_try_on_flag = False
+if "last_product_image_url" not in st.session_state:
+    st.session_state.last_product_image_url = None
 
 # Sidebar for image upload
 st.sidebar.title("Upload Image")
@@ -204,13 +206,43 @@ if prompt := st.chat_input("Chat with the Nike fashion assistant or ask about th
     logger.info(f"User prompt: {prompt}")
     
     if "virtual try" in prompt.lower():
-        response = {"status": "success", "api": "get_virtual_try_on", "virtual_try_on_image": "placeholder_image_url"}
-    else : 
+        st.session_state.virtual_try_on_flag = True
+        if st.session_state.image_url:
+            st.session_state.messages.append({"role": "assistant", "content": "Just before we begin, can you confirm if that's your photo on the left which you want to try? Please type 'Yes' to confirm."})
+        else:
+            st.session_state.messages.append({"role": "assistant", "content": "Please upload your photo first using the sidebar option. Once you've uploaded your photo, type 'done' to proceed."})
+    elif st.session_state.virtual_try_on_flag and (prompt.lower() == 'yes' or prompt.lower() == 'done'):
+        user_image_url = st.session_state.image_url
+        product_image_url = st.session_state.last_product_image_url
+        if product_image_url:
+            with st.spinner("Processing virtual try-on..."):
+                response = send_to_api(f"I want to virtual try on {product_image_url} : {user_image_url}")
+                try:
+                    response_data = response.get('response', {})
+                    virtual_try_on_image = response_data.get('virtual_try_on_image')
+                    if virtual_try_on_image:
+                        message = f"""
+                        Here's how you would look in this, and I think you look amazing!
+                        <br><img src="{virtual_try_on_image}" style="max-width: 100%; height: auto;">
+                        """
+                        st.session_state.messages.append({"role": "assistant", "content": message})
+                    else:
+                        st.session_state.messages.append({"role": "assistant", "content": "Sorry, I couldn't generate a virtual try-on image."})
+                except Exception as e:
+                    st.session_state.messages.append({"role": "assistant", "content": f"An error occurred: {str(e)}"})
+        else:
+            st.session_state.messages.append({"role": "assistant", "content": "Sorry, I couldn't find the product image. Please try searching for a product first."})
+    else:
         with st.spinner(spinner_message):
             response = send_to_api(prompt, st.session_state.image_url)
-    
-    logger.info(f"API response: {response}")
-    try:
+        
+        # After getting the response, store the last product image URL
+        if isinstance(response, dict) and "response" in response:
+            products = response.get('response', {}).get('products', [])
+            if products:
+                st.session_state.last_product_image_url = products[0].get('metadata', {}).get('Image URL', '')
+        
+        # Display the response
         if isinstance(response, dict) and "response" in response:
             logger.info(f"Response is a dict")
             if response.get('response').get('status') == 'success' and 'fetch_similar' in response.get('response').get('api').lower():
@@ -222,16 +254,12 @@ if prompt := st.chat_input("Chat with the Nike fashion assistant or ask about th
                 st.session_state.messages.append({"role": "assistant", "content": response.get('response').get('response')})
             else:
                 logger.info(f"Displaying virtual try-on image")
-                st.session_state.messages.append("Virtual try-on image: placeholder_image_url")
+                st.session_state.messages.append({"role": "assistant", "content": "Virtual try-on image: " + response.get('response', {}).get('virtual_try_on_image', 'Not available')})
         else:
             logger.info(f"Displaying chat response")
-            st.session_state.messages.append({"role": "assistant", "content": response})
-    except Exception as e:
-        logger.error(f"Error displaying results: {e}")
-        st.session_state.messages.append({"role": "assistant", "content": response})
+            st.session_state.messages.append({"role": "assistant", "content": str(response)})
 
 # Display chat messages
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"], unsafe_allow_html=True)
-    

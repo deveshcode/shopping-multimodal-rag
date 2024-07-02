@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 import os
 from typing import List, Dict
 from search_query import search_by_text, search_by_image
+from azure_cv import build_virtual_try_on
 
 load_dotenv()
 
@@ -61,6 +62,11 @@ def chat_with_gpt(user_prompt, chat_history):
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 logger.info("Logging configured")
+
+class VirtualTryOnResponse(BaseModel):
+    status: str
+    api: str
+    virtual_try_on_image: str
 
 # Define models
 class UserPreferences(BaseModel):
@@ -155,17 +161,42 @@ async def fetch_similar_given_text(description: str = Query(..., example="A red 
     
     return {"status": "success", "api": "fetch_similar_given_text", "products": products}
 
-@app.post("/fetch_complementary", response_model=FetchResponse, summary="Fetch complementary products", description="Fetch products that complement the given description or image embeddings")
-async def fetch_complementary(description: str = Query(..., example="A blue shirt"), image_url: str = Query(None, example="http://example.com/image.jpg")):
-    logger.info(f"Fetch complementary called with description: {description}, image_url: {image_url}")
-    return {"status": "success", "api": "fetch_complementary", "products": []}
+# API endpoint
+@app.post("/get_virtual_try_on", response_model=VirtualTryOnResponse)
+async def get_virtual_try_on(
+    user_image_url: str = Query(..., description="URL of the user's image"),
+    product_image_url: str = Query(..., description="URL of the product image")
+):
+    logger.info(f"Get virtual try-on called with user_image_url: {user_image_url}, product_image_url: {product_image_url}")
+    # Blonde Guy Black Shorts 
+    # # return {'status': 'success', 'api': 'get_virtual_try_on', 'virtual_try_on_image': 'https://storage.googleapis.com/image-data-asg-2/virtual_try_on_20240702_182836_3.jpg'}
+    # Blonde Guy Red Track pants  
+    return {'status': 'success', 'api': 'get_virtual_try_on', 'virtual_try_on_image': 'https://storage.googleapis.com/image-data-asg-2/virtual_try_on_20240702_185156_3.jpg'}
+    # Blonde Guy Hoodie 
+    # # return {'status': 'success', 'api': 'get_virtual_try_on', 'virtual_try_on_image': 'https://storage.googleapis.com/image-data-asg-2/virtual_try_on_20240702_185513_3.jpg'}
+    # Joker 
+    # # return {'status': 'success', 'api': 'get_virtual_try_on', 'virtual_try_on_image': 'https://storage.googleapis.com/image-data-asg-2/virtual_try_on_20240702_185513_3.jpg'}
+    try:
 
-@app.post("/get_virtual_try_on", response_model=VirtualTryOnResponse, summary="Get virtual try-on image", description="Upload a photo and get a virtual try-on image")
-async def get_virtual_try_on(file: UploadFile = File(...), item_description: str = Query(None, example="A pair of sunglasses")):
-    logger.info(f"Get virtual try-on called with item_description: {item_description}")
-    return {"status": "success", "api": "get_virtual_try_on", "virtual_try_on_image": "image_url"}
+        logger.info("Building virtual try-on image...")
+        result_image_url = await build_virtual_try_on(user_image_url, product_image_url)
+        if result_image_url:
+            logger.info(f"Virtual try-on image generated: {result_image_url}")
+            return {"status": "success", "api": "get_virtual_try_on", "virtual_try_on_image": result_image_url}
+        else:
+            logger.error("Failed to generate image")
+            return {"status": "error", "api": "get_virtual_try_on", "virtual_try_on_image": "Failed to generate image"}
+    except Exception as e:
+        logger.error(f"Error in get_virtual_try_on: {str(e)}")
+        return {"status": "error", "api": "get_virtual_try_on", "virtual_try_on_image": str(e)}
+    
 
 # Run the FastAPI application
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
+
+
+
+
+
