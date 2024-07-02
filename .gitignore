@@ -78,6 +78,10 @@ ipython_config.py
 
 # pyenv
 .python-version
+*myenv/
+*Identifier*
+excellent-shard-425619-r9-9b76f92de3bc.json
+azure.env
 
 # pipenv
 # According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
