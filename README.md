@@ -8,6 +8,9 @@ It performs search functionality as follows :
 
 <img width="1280" alt="Screenshot 2024-07-01 at 10 05 28 PM" src="https://github.com/deveshcode/shopping-multimodal-rag/assets/37287532/ce713ad3-4df3-4067-8004-5019404546c2">
 
+Further now, you can also virtually try it on by providing your image and product image :
+
+<img width="1280" alt="Screenshot 2024-07-02 at 7 22 59 PM" src="https://github.com/deveshcode/shopping-multimodal-rag/assets/37287532/97c1d403-7dee-4bee-9f39-0ede08e56b55">
 
 ## Installation
 
