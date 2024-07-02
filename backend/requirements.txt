@@ -1,0 +1,17 @@
+pinecone-client
+uvicorn
+fastapi
+openai
+streamlit
+streamlit-extras
+streamlit-lottie
+streamlit-chat
+torch
+requests
+python-dotenv
+matplotlib
+sentence-transformers
+langchain
+langchain-community
+langchain-openai
+openapi-pydantic

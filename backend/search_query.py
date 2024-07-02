@@ -53,7 +53,7 @@ def get_text_embedding(text):
 # Function to search by image
 def search_by_image(image_url,n):
     embedding = get_image_embedding(image_url)
-    result = index.query(  [embedding.tolist()    ], top_k=n)
+    result = index.query(vector=embedding.tolist(), top_k=n,include_metadata=True)
     return result
 
 # Function to search by text

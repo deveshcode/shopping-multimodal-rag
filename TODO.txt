@@ -2,15 +2,9 @@ TODO List
 
 Data Pipeline
 
-1. In order to not get autobanned, need to write a setting or a limiter inside of data pipeline to limit the calls. 
-2. Check verify and clean data if need be, specifically verify the URLs and the description to prevent unnecessary content coming in between.
-3. Check and Debug what the DB's original web scrape only contained 48 images and how more could be added to improve the data pipeline.
 
-storing data in pinecone
-image url is missing 
-image is not being google cloud 
-clip model - best ? alternatives ? versions ? 
-Why text embeddings are not stored
+
+
 
 Search functionality can be improved
 Text embeddings could be used alongside Text
@@ -28,9 +22,7 @@ streamlit lottie and streamlit extra could be used
 Adding functionality of a follow up query - that 50$ is too much show me a cheaper option
 
 Complementary - image - shorts - suggest tshirts - GPT-4o 
-Unit testcases
 Streamlit app should be streamlti commands
-Fast API should be integrated
 Deploy google cloud 
 Dockerize and deploy 
 For fastapi using langchain / llama index for api calling

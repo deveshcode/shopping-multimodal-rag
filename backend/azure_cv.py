@@ -12,7 +12,7 @@ from typing import Dict, Any, Optional, BinaryIO
 from google.cloud import storage
 import logging
 
-load_dotenv("azure.env")
+load_dotenv()
 key = os.getenv("azure_cv_key")
 endpoint = os.getenv("azure_cv_endpoint")
 
@@ -89,6 +89,28 @@ def get_caption(processed_img_url):
 
 
 
-# remove_background_img = remove_background(image_url)
+remove_background_img = remove_background("https://storage.googleapis.com/image-data-asg-2/uploads/20240701_203835_lh.jpg")
+print(remove_background_img)
+result = upload_blob("images/processed_image.png", "20240701_203835_lh2.png")
+print(result)
+caption = get_caption(result)
+print(caption)
+# remove_background_img
 # remove_background_img.thumbnail((360, 360), Image.Resampling.LANCZOS)
-# remove_background_img.save("results/remove_background.jpg")
+# remove_background_img.save("remove_background.png")
+
+
+# Results - user - 
+# session variable - last result image url - store - static nike url 
+
+
+# Detect virtual try : 
+# Flag : on : virtual try 
+# User : message - 2 message : 1 check image uploaded - true / false 
+# if image uploaded - user message - okay .. befreo we try on virutally .. can you confirm ki left mein image 
+# if image uploaded - fase - please upload user image 
+
+# Proceed to try-on
+
+# then full flow 
+
