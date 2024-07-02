@@ -3,12 +3,14 @@ import json
 import os
 import requests
 import sys
-
 from dotenv import load_dotenv
 from io import BytesIO
 from PIL import Image
 from urllib.parse import urlparse
 from gradio_client import Client, handle_file
+from typing import Dict, Any, Optional, BinaryIO
+from google.cloud import storage
+import logging
 
 load_dotenv("azure.env")
 key = os.getenv("azure_cv_key")
@@ -28,6 +30,34 @@ IMAGES_DIR = "images"
 RESULTS_DIR = "results"
 os.makedirs(RESULTS_DIR, exist_ok=True)
 
+
+load_dotenv("azure.env")
+BUCKET_NAME = os.getenv('BUCKET_NAME')
+project_id = os.getenv('PROJECT_ID')
+SERVICE_ACCOUNT_JSON = os.getenv('GOOGLE_APPLICATION_CREDENTIALS') 
+UPLOAD_FOLDER = "raw_images"
+PROCESSED_FOLDER = "processed_images"
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+
+def upload_blob(source_file_name: str, destination_blob_name: str, bucket_name: str = BUCKET_NAME) -> Optional[str]:
+    """Uploads a file to Google Cloud Storage and returns its public URL."""
+    try:
+        storage_client = storage.Client(project=project_id)
+        bucket = storage_client.bucket(bucket_name)
+        blob = bucket.blob(destination_blob_name)
+
+        blob.upload_from_filename(source_file_name, if_generation_match=0)
+        logger.info(f"File {source_file_name} uploaded to {destination_blob_name}.")
+        
+        blob.make_public()
+        return blob.public_url
+    except Exception as e:
+        logger.error(f"Error uploading file to GCS: {e}")
+        return None
+
 def remove_background(image_url):
     """
     Removing background
@@ -40,7 +70,12 @@ def remove_background(image_url):
     )
     with open(object_image, "wb") as f:
         f.write(r.content)
+    # Save the processed image in the 'images' folder
+    image_path = os.path.join('images', 'processed_image.png')
+    remove_background_img = Image.open(object_image)
+    remove_background_img.save(image_path)
     return Image.open(object_image)
+
 
 
 def get_caption(processed_img_url):    
