@@ -39,7 +39,7 @@ load_dotenv()
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-API_HOST = "http://localhost:8001"  # Update this to your FastAPI host
+API_HOST = os.getenv("API_HOST")  # Update this to your FastAPI host
 
 def upload_blob(source_file_name: str, destination_blob_name: str, bucket_name: str = BUCKET_NAME) -> Optional[str]:
     """Uploads a file to Google Cloud Storage and returns its public URL."""
