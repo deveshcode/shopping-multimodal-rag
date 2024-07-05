@@ -16,3 +16,4 @@ langchain-community
 langchain-openai
 openapi-pydantic
 google-cloud-storage
+asyncio

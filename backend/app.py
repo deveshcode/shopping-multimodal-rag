@@ -9,6 +9,7 @@ import os
 from typing import List, Dict
 from search_query import search_by_text, search_by_image
 from azure_cv import build_virtual_try_on
+import asyncio
 
 load_dotenv()
 
@@ -38,25 +39,55 @@ app.add_middleware(
 # Initialize the OpenAI client
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-def chat_with_gpt(user_prompt, chat_history):
+import asyncio
+from openai import AsyncOpenAI
+
+async def chat_with_gpt(user_prompt, chat_history):
+    client = AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY"))
     system_prompt = """
     You are a helpful fashion assistant for Nike products. Guide the user and answer their questions. Give general advice.
     """
-    messages = [
-        {"role": "system", "content": system_prompt},
+    guardrail_prompt = """
+    Your role is to assess whether the user's input is appropriate for a fashion assistant to respond to.
+    Allow the following types of inputs:
+    1. Greetings and general conversation starters (e.g., "Hi", "Hello", "How are you?")
+    2. Questions or statements related to fashion, clothing, or accessories
+    3. Requests for product recommendations or style advice
+    4. Queries about virtual try-ons or similar products
+    5. General questions that could reasonably lead to fashion-related discussions
+
+    Only respond with 'not_allowed' if the input is clearly unrelated to fashion or inappropriate for a fashion assistant (e.g., explicit content, harmful requests, or topics completely unrelated to clothing or style).
+
+    If the input is allowed, respond with 'allowed'. Otherwise, respond with 'not_allowed'.
+    """
+    guardrail_block_message = "Sorry, I can't help with that. I am designed only to help with fashion-related questions."
+
+    async def get_chat_response(messages):
+        try:
+            response = await client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=messages
+            )
+            return response.choices[0].message.content
+        except Exception as e:
+            return f"An error occurred: {str(e)}"
+
+    # Guardrail check
+    guardrail_messages = [
+        {"role": "system", "content": guardrail_prompt},
+        {"role": "user", "content": user_prompt},
     ]
+    guardrail_response = await get_chat_response(guardrail_messages)
+    
+    if guardrail_response.lower() == "not_allowed":
+        return guardrail_block_message
+    
+    # Main chat response
+    messages = [{"role": "system", "content": system_prompt}]
     messages.extend(chat_history)
     messages.append({"role": "user", "content": user_prompt})
     
-    try:
-        response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=messages
-        )
-        return response.choices[0].message.content
-    except Exception as e:
-        return f"An error occurred: {str(e)}"
-
+    return await get_chat_response(messages)
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -98,29 +129,11 @@ class Product(BaseModel):
     score: float
     metadata: Dict[str, str]
 
-def chat_with_gpt(user_prompt, chat_history):
-    system_prompt = """
-    You are a helpful fashion assistant for Nike products. Guide the user and answer their questions. Give general advice.
-    """
-    messages = [
-        {"role": "system", "content": system_prompt},
-    ]
-    messages.extend(chat_history)
-    messages.append({"role": "user", "content": user_prompt})
-    
-    try:
-        response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=messages
-        )
-        return response.choices[0].message.content
-    except Exception as e:
-        return f"An error occurred: {str(e)}"
-
 @app.post("/chat_fashion", response_model=ChatFashionResponse, summary="Chat about fashion", description="Get fashion advice based on a query")
 async def chat_fashion(query: str = Query(..., example="What should I wear for a beach party?")):
     logger.info(f"Chat fashion called with query: {query}")
-    return {"status": "success", "api": "chat_fashion", "response": chat_with_gpt(user_prompt=query, chat_history=[])}
+    response = await chat_with_gpt(user_prompt=query, chat_history=[])
+    return {"status": "success", "api": "chat_fashion", "response": response}
 
 @app.post("/fetch_similar_given_image", summary="Fetch products similar to an image", description="Fetch products that are visually similar to the given image URL")
 async def fetch_similar_given_image(image_url: str = Query(..., example="http://example.com/image.jpg")):

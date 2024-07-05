@@ -6,12 +6,15 @@ import json
 import logging
 from langchain_openai import ChatOpenAI
 from langchain.chains.openai_functions.openapi import get_openapi_chain
-from openai import OpenAI
+# from openai import OpenAI
+from openai import AsyncOpenAI
 from langchain_core.exceptions import OutputParserException
 import random
 import datetime
 from typing import Dict, Any, Optional, BinaryIO
 from google.cloud import storage
+import asyncio
+from openai import AsyncOpenAI
 
 # List of spinner messages
 spinner_messages = [
@@ -79,25 +82,55 @@ def save_uploaded_file(uploaded_file) -> Optional[str]:
     
     return public_url
 
-def chat_with_gpt(user_prompt, chat_history):
-    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+async def chat_with_gpt(user_prompt, chat_history):
+    client = AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY"))
     system_prompt = """
     You are a helpful fashion assistant for Nike products. Guide the user and answer their questions. Give general advice.
     """
-    messages = [
-        {"role": "system", "content": system_prompt},
+    guardrail_prompt = """
+    Your role is to assess whether the user's input is appropriate for a fashion assistant to respond to.
+    Allow the following types of inputs:
+    1. Greetings and general conversation starters (e.g., "Hi", "Hello", "How are you?")
+    2. Questions or statements related to fashion, clothing, or accessories
+    3. Requests for product recommendations or style advice
+    4. Queries about virtual try-ons or similar products
+    5. General questions that could reasonably lead to fashion-related discussions
+
+    Only respond with 'not_allowed' if the input is clearly unrelated to fashion or inappropriate for a fashion assistant (e.g., explicit content, harmful requests, or topics completely unrelated to clothing or style).
+
+    If the input is allowed, respond with 'allowed'. Otherwise, respond with 'not_allowed'.
+    """
+    guardrail_block_message = "Sorry, I can't help with that. I am designed only to help with fashion-related questions."
+
+    async def get_chat_response(messages):
+        try:
+            response = await client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=messages
+            )
+            return response.choices[0].message.content
+        except Exception as e:
+            return f"An error occurred: {str(e)}"
+
+    # Guardrail check
+    guardrail_messages = [
+        {"role": "system", "content": guardrail_prompt},
+        {"role": "user", "content": user_prompt},
     ]
+    guardrail_response = await get_chat_response(guardrail_messages)
+    
+    if guardrail_response.lower() == "not_allowed":
+        return guardrail_block_message
+    
+    # Main chat response
+    messages = [{"role": "system", "content": system_prompt}]
     messages.extend(chat_history)
     messages.append({"role": "user", "content": user_prompt})
     
-    try:
-        response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=messages
-        )
-        return response.choices[0].message.content
-    except Exception as e:
-        return f"An error occurred: {str(e)}"
+    return await get_chat_response(messages)
+
+def chat_with_gpt_sync(prompt, chat_history):
+    return asyncio.run(chat_with_gpt(prompt, chat_history))
 
 def send_to_api(prompt, file_url=None):
     logger.info(f"Sending prompt to API: {prompt}")
@@ -144,7 +177,7 @@ def send_to_api(prompt, file_url=None):
         return response
     except OutputParserException as e:
         logger.error(f"Error occurred during API request: {e}")
-        return chat_with_gpt(prompt, st.session_state.messages)
+        return chat_with_gpt_sync(prompt, st.session_state.messages)  # Using empty list for chat_history
     except Exception as e:
         logger.error(f"Error occurred during API request: {e}")
         return f"Error: {e}"
