@@ -2,6 +2,8 @@
 
 Welcome to the Nike Product Search Bot! This application helps you search for Nike products using both text queries and image uploads. Built with Streamlit, it leverages the CLIP model for embeddings and Pinecone for vector database management. Below you'll find instructions on how to run and use the app.
 
+Codelabs : https://codelabs-preview.appspot.com/?file_id=1AIAp9yNO8t3g9lTch4a9ZTRchFumZx9COM6oTW46BW8#5 
+
 <img width="1276" alt="Screenshot 2024-07-01 at 10 01 33 PM" src="https://github.com/deveshcode/shopping-multimodal-rag/assets/37287532/6de1a49e-242e-4836-bcf8-dca0e9346eba">
 
 It performs search functionality as follows : 
