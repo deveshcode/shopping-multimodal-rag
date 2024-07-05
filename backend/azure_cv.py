@@ -86,9 +86,6 @@ def get_caption(processed_img_url):
     )
     return result
 
-
-
-
 # remove_background_img = remove_background(image_url)
 # remove_background_img.thumbnail((360, 360), Image.Resampling.LANCZOS)
 # remove_background_img.save("results/remove_background.jpg")
