@@ -39,6 +39,25 @@ app.add_middleware(
 # Initialize the OpenAI client
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
+class UsageTracker:
+    def __init__(self):
+        self.total_cost = 0
+        self.total_tokens = 0
+        self.total_images = 0
+
+    def update_gpt_usage(self, tokens, cost):
+        self.total_tokens += tokens
+        self.total_cost += cost
+
+    def update_dalle_usage(self, num_images, cost):
+        self.total_images += num_images
+        self.total_cost += cost
+
+    def get_summary(self):
+        return f"Total cost: ${self.total_cost:.4f}, Total tokens: {self.total_tokens}, Total images: {self.total_images}"
+
+usage_tracker = UsageTracker()
+
 import asyncio
 from openai import AsyncOpenAI
 
