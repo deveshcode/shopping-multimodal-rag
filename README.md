@@ -6,7 +6,7 @@
 
 ## Documentation
 
-[![codelabs](https://img.shields.io/badge/codelabs-4285F4?style=for-the-badge&logo=codelabs&logoColor=white)](https://codelabs-preview.appspot.com/?file_id=1ouVC0iP9DT3V-SUMNcN7jnhS8Crm-vMhZ2uAq6fJuOE#0)]
+[![codelabs](https://img.shields.io/badge/codelabs-4285F4?style=for-the-badge&logo=codelabs&logoColor=white)](https://codelabs-preview.appspot.com/?file_id=1ouVC0iP9DT3V-SUMNcN7jnhS8Crm-vMhZ2uAq6fJuOE#0)
 
 # StyleScout - LLM-Powered Personal Stylist
 
