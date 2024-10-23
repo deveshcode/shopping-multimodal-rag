@@ -1,4 +1,4 @@
-<img width="1440" alt="0_Home" src="https://github.com/user-attachments/assets/09a5ec88-f9d8-4f6a-9dd3-e1619256649d">Github Repo for StyleScout Multimodal RAG
+# Github Repo for StyleScout Multimodal RAG
 
 ## Video Demo
 
@@ -6,7 +6,7 @@
 
 ## Documentation
 
-[![codelabs](https://img.shields.io/badge/codelabs-4285F4?style=for-the-badge&logo=codelabs&logoColor=white)](https://codelabs-preview.appspot.com/?file_id=16XmZAjcqcY8qKhQ87nAlNkNS5XIRCKnQzeiKVg-XPUE#0)
+[![codelabs](https://img.shields.io/badge/codelabs-4285F4?style=for-the-badge&logo=codelabs&logoColor=white)](https://codelabs-preview.appspot.com/?file_id=1ouVC0iP9DT3V-SUMNcN7jnhS8Crm-vMhZ2uAq6fJuOE#0)]
 
 # StyleScout - LLM-Powered Personal Stylist
 
