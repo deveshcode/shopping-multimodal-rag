@@ -1,6 +1,6 @@
 # Github Repo for StyleScout Multimodal RAG
 
-## Live Demo ( Youtube )
+## Live Demo ( GCP Deployed App )
 
 [![Live Demo](https://img.shields.io/badge/Video%20Demo-<COLOR>?style=for-the-badge&logo=<LOGO>&logoColor=white)](http://35.229.26.218:8501/)
 
