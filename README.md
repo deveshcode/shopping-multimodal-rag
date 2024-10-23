@@ -1,4 +1,4 @@
-Github Repo for StyleScout Multimodal RAG
+<img width="1440" alt="0_Home" src="https://github.com/user-attachments/assets/09a5ec88-f9d8-4f6a-9dd3-e1619256649d">Github Repo for StyleScout Multimodal RAG
 
 ## Video Demo
 
@@ -12,36 +12,34 @@ Github Repo for StyleScout Multimodal RAG
 
 Welcome to the StyleScout! This application helps you search for Fashion products using both text queries and image uploads. Built with Streamlit, it leverages the CLIP model for embeddings and Pinecone for vector database management.
 
-![Screenshot 2024-10-12 at 1 28 54 PM](https://github.com/user-attachments/assets/c0b8f6a0-cb87-40a7-97a3-dbed4c3333de)
-
-![2](https://github.com/user-attachments/assets/fba9b953-d7bd-450a-95e0-b69d1d6babd0)
-
-![3](https://github.com/user-attachments/assets/ee9c5a1d-b5a6-4b65-8be9-a266806d3f52)
-
-![4](https://github.com/user-attachments/assets/d3a72a4b-4196-4bea-8c6e-6eb9068aefee)
-
-![5](https://github.com/user-attachments/assets/9e78ec28-cb00-4a8f-9c1e-2d0158d8a4bc)
 
 ## Features
 
+<img width="1440" alt="0_Home" src="https://github.com/user-attachments/assets/4ac89297-83a3-4059-aa3d-09f3f1fdf35a">
+
+<img width="1440" alt="1_Hello" src="https://github.com/user-attachments/assets/184ee47a-840e-423a-96e2-6cfc5e9ff391">
+
+<img width="1440" alt="2_Chat" src="https://github.com/user-attachments/assets/bf12812b-5777-43dd-b11a-0a2359163906">
+
+<img width="1440" alt="3_Guardrailing" src="https://github.com/user-attachments/assets/ad942236-8a62-4680-9ed5-5c349f8022a5">
+
+<img width="1440" alt="4_Fashion_chat" src="https://github.com/user-attachments/assets/bed96d50-b0a3-4f5c-95c7-40cb8bae2187">
 
 ### Product Search
 
 It performs search functionality as follows:
 
-![Screenshot 2024-10-12 at 1 32 09 PM](https://github.com/user-attachments/assets/4e64889c-e796-4cbe-b37a-29f3bd1e2902)
+<img width="1440" alt="5_search_text" src="https://github.com/user-attachments/assets/c54e276a-afb0-4fb8-9d46-fe691ce6240f">
 
-![6](https://github.com/user-attachments/assets/b9e5adb0-b474-45cf-955b-965a0c12b46a)
+<img width="1440" alt="6_search_link" src="https://github.com/user-attachments/assets/ad973496-0a6b-4bc5-951e-04c86576590d">
 
-![7](https://github.com/user-attachments/assets/d079e310-4a3c-4835-adff-c345fb138acb)
-
-![8](https://github.com/user-attachments/assets/b3fd9586-9cdc-42ec-9350-87b601d902a5)
+<img width="1440" alt="7_search_by_image" src="https://github.com/user-attachments/assets/13ab3b3d-a7d2-4e80-a2d8-fb325843ed51">
 
 
 ### Virtual Try-On
 You can also virtually try it on by providing your image and product image:
+<img width="1280" alt="redtrackvirtualtryon" src="https://github.com/user-attachments/assets/4a88ee64-be5f-46aa-922c-49b8605d947d">
 
-<img width="1280" alt="redtrackvirtualtryon" src="https://github.com/user-attachments/assets/eed1e735-05be-4945-ae37-df152fce16fc">
 
 
 ## Installation
