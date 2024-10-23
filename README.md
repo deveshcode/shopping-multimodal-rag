@@ -2,19 +2,19 @@
 
 ## Live Demo ( GCP Deployed App )
 
-[![Live Demo](https://img.shields.io/badge/Video%20Demo-<COLOR>?style=for-the-badge&logo=<LOGO>&logoColor=white)](http://35.229.26.218:8501/)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-blue?style=for-the-badge&logo=google-cloud&logoColor=white)](http://35.229.26.218:8501/)
 
 ## Presentation
 
-[![PPT](https://img.shields.io/badge/codelabs-4285F4?style=for-the-badge&logo=codelabs&logoColor=white)](https://prezi.com/view/abmW0kebVhJmgXH6LG6u/)
+[![PPT](https://img.shields.io/badge/Presentation-4285F4?style=for-the-badge&logo=prezi&logoColor=white)](https://prezi.com/view/abmW0kebVhJmgXH6LG6u/)
 
 ## Video Demo ( Youtube )
 
-[![Video Demo](https://img.shields.io/badge/Video%20Demo-<COLOR>?style=for-the-badge&logo=<LOGO>&logoColor=white)](https://youtu.be/ZygyXm84pUQ)
+[![Video Demo](https://img.shields.io/badge/Video%20Demo-red?style=for-the-badge&logo=youtube&logoColor=white)](https://youtu.be/ZygyXm84pUQ)
 
 ## Documentation
 
-[![codelabs](https://img.shields.io/badge/codelabs-4285F4?style=for-the-badge&logo=codelabs&logoColor=white)](https://codelabs-preview.appspot.com/?file_id=1ouVC0iP9DT3V-SUMNcN7jnhS8Crm-vMhZ2uAq6fJuOE#0)
+[![codelabs](https://img.shields.io/badge/Documentation-4285F4?style=for-the-badge&logo=google&logoColor=white)](https://codelabs-preview.appspot.com/?file_id=1ouVC0iP9DT3V-SUMNcN7jnhS8Crm-vMhZ2uAq6fJuOE#0)
 
 # StyleScout - LLM-Powered Personal Stylist
 
