@@ -4,6 +4,10 @@
 
 [![Live Demo](https://img.shields.io/badge/Video%20Demo-<COLOR>?style=for-the-badge&logo=<LOGO>&logoColor=white)](http://35.229.26.218:8501/)
 
+## Presentation
+
+[![PPT](https://img.shields.io/badge/codelabs-4285F4?style=for-the-badge&logo=codelabs&logoColor=white)](https://prezi.com/view/abmW0kebVhJmgXH6LG6u/)
+
 ## Video Demo ( Youtube )
 
 [![Video Demo](https://img.shields.io/badge/Video%20Demo-<COLOR>?style=for-the-badge&logo=<LOGO>&logoColor=white)](https://youtu.be/ZygyXm84pUQ)
